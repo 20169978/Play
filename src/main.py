@@ -8,12 +8,11 @@ from objects.hitbox import Check_Hitbox
 import time
 
 DEBUG = True
-FPS = 30
+FPS = 10
 STAGE = "src/resource/stages/test.txt" # Stage file path <- fix this
 
 def main(stdscr):
     mode = "play" # or "menu" or "quit"
-    
 
     render = Render(stdscr)
     if DEBUG:

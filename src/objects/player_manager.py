@@ -4,6 +4,7 @@ from objects.player_bullet import PlayerBullet
 
 class PlayerManager:
     def __init__(self):
+        super().__init__()
         self.__player = Player()
         self.__player.icon = ">"
         self.__player.position = (PLAY_AREA[0] // 2, 2)
@@ -14,6 +15,9 @@ class PlayerManager:
         for bullet in self.__bullets:
             bullet.update()
             if bullet.position[1] >= PLAY_AREA[1]:
+                self.__bullets.remove(bullet)
+            if bullet.health < 1:
+                bullet.remove_hitbox()
                 self.__bullets.remove(bullet)
 
         if key == ord(" "):

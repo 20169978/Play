@@ -20,14 +20,13 @@ def Check_Hitbox():
                continue
            if pos[0] <= obj_2.position[0] <= hitbox_pos[0] and pos[1] <= obj_2.position[1] <= hitbox_pos[1]:
                obj.hit(obj_2)
-               print(f"Hitbox: {obj} hit {obj_2}")
 
 class Hitbox(ABC):
     Objects = []
 
-    def __init__(self, hitbox = (0,0)): # size. 0,0 = 1 cell
+    def __init__(self): # size(x,y). 0,0 = 1 cell
         super().__init__()
-        self.__hitbox = hitbox
+        self.__hitbox = (0, 0)
         Hitbox.Objects.append(self)
         
     @property
@@ -41,5 +40,9 @@ class Hitbox(ABC):
     @abstractmethod
     def hit(self, object_hit):
         pass
+
+    def remove_hitbox(self):
+        if self in Hitbox.Objects:
+            Hitbox.Objects.remove(self)
 
     

@@ -9,6 +9,7 @@ Enemy_Reference = {
 
 class EnemyManager:
     def __init__(self):
+        super().__init__()
         self.enemies = []
         self.enemy_queue = []
         self.spawn_timer = 0
@@ -22,12 +23,13 @@ class EnemyManager:
                 break
             enemy_data = self.enemy_queue.pop(0)
             enemy = enemy_data[1]()
-            enemy.position = (random.randint(0, PLAY_AREA[0]), PLAY_AREA[1] - 1)
+            enemy.position = (random.randint(0, PLAY_AREA[0] - 1), PLAY_AREA[1] - 1)
             self.enemies.append(enemy)
 
         for enemy in self.enemies:
             enemy.update()
             if enemy.health < 1:
+                enemy.remove_hitbox()
                 self.enemies.remove(enemy)
 
     def draw_enemies(self, render):

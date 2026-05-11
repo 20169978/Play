@@ -13,4 +13,4 @@ class PlayerBullet(BaseBullet, Hitbox):
     def hit(self, object_hit):
         if isinstance(object_hit, BaseEnemy):
             object_hit.damage(self.power)
-            self.kill()
+            self.health -= 1
