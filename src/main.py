@@ -13,7 +13,7 @@ import time
 
 
 DEBUG = True
-FPS = 5
+FPS = 20
 STAGE = "src/resource/stages/test.txt" # Stage file path <- fix this
 
 def main(stdscr):
@@ -68,8 +68,11 @@ def main(stdscr):
 
                 response = enemy_manager.update_enemies()
                 if response != None:
-                    if response[0] == "enemy_killed":
-                        score_controller.add_score(response[1])
+                    for data in response:
+                        if data[0] == "score_gained":
+                            score_controller.add_score(data[1])
+                        elif data[0] == "enemy_killed":
+                            score_controller.add_enemy_killed(data[1])
 
                 score_controller.add_distance(1)
                 Check_Hitbox()
