@@ -4,6 +4,8 @@ from objects.player_manager import PlayerManager
 from objects.enemy_manager import EnemyManager
 from objects.stage_manager import StageManager
 from objects.menu_controller import MENU_PETTERNS, MenuController
+from objects.status_controller import StatusController
+from objects.score_controller import ScoreController
 
 from objects.hitbox import Check_Hitbox
 
@@ -11,7 +13,7 @@ import time
 
 
 DEBUG = True
-FPS = 20
+FPS = 5
 STAGE = "src/resource/stages/test.txt" # Stage file path <- fix this
 
 def main(stdscr):
@@ -24,6 +26,8 @@ def main(stdscr):
         player_manager = PlayerManager()
         enemy_manager = EnemyManager()
         menu_controller = MenuController()
+        status_controller = StatusController()
+        score_controller = ScoreController()
 
         #setup menu
         #setup stage
@@ -36,6 +40,7 @@ def main(stdscr):
                 render.clear_play_area()
                 player_manager.draw_player(render)
                 enemy_manager.draw_enemies(render)
+                score_controller.draw_score(render)
 
                 key = stdscr.getch()
                 if key == ord("m"):
@@ -44,6 +49,7 @@ def main(stdscr):
                     menu_controller.set_menu_options(MENU_PETTERNS["playing"])
                     mode = "menu"
                     break
+
                 response = player_manager.update_player(key)
                 if response != None:
                     if response == "hit_endline":
@@ -62,8 +68,10 @@ def main(stdscr):
 
                 response = enemy_manager.update_enemies()
                 if response != None:
-                    pass # handle response if needed
+                    if response[0] == "enemy_killed":
+                        score_controller.add_score(response[1])
 
+                score_controller.add_distance(1)
                 Check_Hitbox()
             
                 elapsed_time = time.time() - start_time

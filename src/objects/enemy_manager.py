@@ -36,11 +36,16 @@ class EnemyManager:
                 PLAY_AREA[1] - 1)
             self.enemies.append(enemy)
 
+        score_gained = 0
         for enemy in self.enemies:
             enemy.update()
             if enemy.health < 1:
                 enemy.remove_hitbox()
+                if enemy.score_value > 0:
+                    score_gained += enemy.score_value
                 self.enemies.remove(enemy)
+        return ("enemy_killed", score_gained) if score_gained > 0 else None
+        
 
     def draw_enemies(self, render):
         for enemy in self.enemies:
