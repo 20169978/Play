@@ -46,7 +46,12 @@ def main(stdscr):
                         message = "You win!"
                         mode = "message"
                         break
-                
+
+                    if response == "died":
+                        message = "You died!"
+                        mode = "message"
+                        break
+
                 response = enemy_manager.update_enemies()
                 if response != None:
                     pass # handle response if needed

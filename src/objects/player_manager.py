@@ -36,6 +36,10 @@ class PlayerManager:
         if self.__player.touching_endline:
             self.__player.touching_endline = False
             return "hit_endline"
+        
+        # Check if player is died
+        if self.__player.health < 1:
+            return "died"
 
 
     def draw_player(self, render):
