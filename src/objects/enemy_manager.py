@@ -1,6 +1,9 @@
+import random
+
 from objects.enemy_test import Enemy_Test
 from render import PLAY_AREA
-import random
+from objects.player_manager import PlayerManager
+
 
 Enemy_Reference = {
     "test": Enemy_Test
@@ -23,7 +26,11 @@ class EnemyManager:
                 break
             enemy_data = self.enemy_queue.pop(0)
             enemy = enemy_data[1]()
-            enemy.position = (random.randint(0, PLAY_AREA[0] - 1), PLAY_AREA[1] - 1)
+            enemy.position = (
+                random.randint(
+                    PlayerManager.Player_Pos[0]  if enemy_data[2] == "p" else enemy_data[2], 
+                    PlayerManager.Player_Pos[0]  if enemy_data[3] == "p" else enemy_data[3]),
+                PLAY_AREA[1] - 1)
             self.enemies.append(enemy)
 
         for enemy in self.enemies:
@@ -40,5 +47,5 @@ class EnemyManager:
         for enemy_data in stage:
             enemy_type = enemy_data[1]
             if enemy_type in Enemy_Reference:
-                self.enemy_queue.append((enemy_data[0], Enemy_Reference[enemy_type]))
+                self.enemy_queue.append((enemy_data[0], Enemy_Reference[enemy_type], enemy_data[2], enemy_data[3]))
             

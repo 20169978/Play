@@ -3,6 +3,8 @@ from render import PLAY_AREA
 from objects.player_bullet import PlayerBullet
 
 class PlayerManager:
+    Player_Pos = (0,0)
+
     def __init__(self):
         super().__init__()
         self.__player = Player()
@@ -24,7 +26,8 @@ class PlayerManager:
             bullet = PlayerBullet()
             bullet.position = (self.__player.position[0], self.__player.position[1] + 1)
             self.__bullets.append(bullet)
-        self.__player.update(key)        
+        self.__player.update(key) 
+        PlayerManager.Player_Pos = self.__player.position
         
 
 

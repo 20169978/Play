@@ -55,3 +55,20 @@ class Render:
         else:
             self.__play_area.addstr(position[0], position[1], icon)
         self.__play_area.refresh()
+
+    def show_message(self, message):
+        message_lines = message.split("\n")
+        self.__message_box = curses.newwin(len(message_lines) + 4, 32, 1, PLAY_AREA[1]//2 - 15)
+        for cell in range(0, 31):
+            self.__message_box.addstr(0, cell, "-")
+            self.__message_box.addstr(len(message_lines) + 3, cell, "-")
+        
+        for i in range(0, len(message_lines)):
+            self.__message_box.addstr(
+                2 + i,
+                15 - len(message_lines[i]) // 2,
+                message_lines[i])
+        self.__message_box.refresh()
+
+    def clear_message(self):
+        del self.__message_box

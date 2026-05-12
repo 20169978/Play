@@ -2,23 +2,28 @@ import curses
 from render import Render
 from objects.player_manager import PlayerManager
 from objects.enemy_manager import EnemyManager
-from objects.file_handler import Parse_Stage
+from objects.stage_manager import StageManager
 from objects.hitbox import Check_Hitbox
 
 import time
 
+
 DEBUG = True
-FPS = 10
+FPS = 20
 STAGE = "src/resource/stages/test.txt" # Stage file path <- fix this
 
 def main(stdscr):
-    mode = "play" # or "menu" or "quit"
+    mode = "play" # or "menu" or "quit" or "message"
+    message = "" # shown message
 
     render = Render(stdscr)
     if DEBUG:
-        stage = Parse_Stage(STAGE)
+        stage_manager = StageManager()
         player_manager = PlayerManager()
         enemy_manager = EnemyManager()
+
+        stage = stage_manager.get_stage(STAGE)
+
         enemy_manager.setup_enemies(stage)
         while mode != "quit":
             while mode == "play":
@@ -51,6 +56,27 @@ def main(stdscr):
                     break
                 if key == ord("p"):
                     mode = "play"
+                    break
+
+                elapsed_time = time.time() - start_time
+                sleep_time = max(0, (1 / FPS) - elapsed_time)
+                time.sleep(sleep_time)
+
+            while mode == "message":
+                render.show_message(message)
+
+                key = stdscr.getch()
+                if key == ord("q"):
+                    mode = "quit"
+                    render.clear_message()
+                    break
+                if key == ord(" "):
+                    mode = "play"
+                    render.clear_message()
+                    break
+                if key == ord("m"):
+                    mode = "menu"
+                    render.clear_message()
                     break
 
                 elapsed_time = time.time() - start_time
