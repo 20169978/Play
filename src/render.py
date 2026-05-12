@@ -2,18 +2,42 @@ import curses
 
 # Height, Width
 PLAY_AREA = 10 ,80
+SEPARATOR = 1, 100
 BOTTOM_MENU = 6 ,80
 STATUS_AREA = 10, 20
+KEY_EXPLAINER = 2, 100
+
 
 # Colors
-PLAY_AREA_FG = curses.COLOR_WHITE
-PLAY_AREA_BG = curses.COLOR_BLACK
+#safety colors
+# curses.COLOR_BLACK
+# curses.COLOR_RED
+# curses.COLOR_GREEN
+# curses.COLOR_YELLOW
+# curses.COLOR_BLUE
+# curses.COLOR_MAGENTA
+# curses.COLOR_CYAN
+# curses.COLOR_WHITE
+MARGIN_FG = curses.COLOR_WHITE
+MARGIN_BG = curses.COLOR_BLACK
+
+PLAY_AREA_FG = curses.COLOR_BLACK
+PLAY_AREA_BG = curses.COLOR_WHITE
+
 SEPARATOR_FG = curses.COLOR_BLACK
-SEPARATOR_BG = curses.COLOR_WHITE
-BOTTOM_MENU_FG = curses.COLOR_BLACK
-BOTTOM_MENU_BG = curses.COLOR_WHITE
-STATUS_AREA_FG = curses.COLOR_WHITE
-STATUS_AREA_BG = curses.COLOR_BLUE
+SEPARATOR_BG = curses.COLOR_BLUE
+
+BOTTOM_MENU_FG = curses.COLOR_WHITE
+BOTTOM_MENU_BG = curses.COLOR_BLUE
+
+KEY_EXPLAINER_FG = curses.COLOR_RED
+KEY_EXPLAINER_BG = curses.COLOR_BLUE
+
+STATUS_AREA_FG = curses.COLOR_BLACK
+STATUS_AREA_BG = curses.COLOR_CYAN
+
+SCORE_AREA_FG = curses.COLOR_WHITE
+SCORE_AREA_BG = curses.COLOR_BLUE
 
 
 class Render:
@@ -33,16 +57,28 @@ class Render:
         curses.init_pair(2, SEPARATOR_FG, SEPARATOR_BG)
         curses.init_pair(3, BOTTOM_MENU_FG, BOTTOM_MENU_BG)
         curses.init_pair(4, STATUS_AREA_FG, STATUS_AREA_BG)
-        
+        curses.init_pair(5, SCORE_AREA_FG, SCORE_AREA_BG)
+        curses.init_pair(6, MARGIN_FG, MARGIN_BG)
+        curses.init_pair(7, KEY_EXPLAINER_FG, KEY_EXPLAINER_BG)
+
         # Setup play area and bottom menu
-        self.__play_area = curses.newwin(PLAY_AREA[0], PLAY_AREA[1], 0, 0)
-        self.__separator = curses.newwin(1, PLAY_AREA[1] + STATUS_AREA[1], PLAY_AREA[0], 0)
-        self.__bottom_menu = curses.newwin(BOTTOM_MENU[0], BOTTOM_MENU[1], PLAY_AREA[0] + 1, 0)
-        self.__key_explainer = curses.newwin(2, PLAY_AREA[1] + STATUS_AREA[1], PLAY_AREA[0] + BOTTOM_MENU[0] + 1, 0)
+        screen_size = self.__screen.getmaxyx()
+        self.__left_top = (screen_size[0] // 2 - (PLAY_AREA[0] + BOTTOM_MENU[0] + KEY_EXPLAINER[0] + SEPARATOR[0]) // 2, screen_size[1] // 2 - (PLAY_AREA[1] + STATUS_AREA[1]) // 2)
+        self.__play_area = curses.newwin(PLAY_AREA[0], PLAY_AREA[1], self.__left_top[0], self.__left_top[1])
+        self.__separator = curses.newwin(1, PLAY_AREA[1] + STATUS_AREA[1], self.__left_top[0] + PLAY_AREA[0], self.__left_top[1])
+        self.__bottom_menu = curses.newwin(BOTTOM_MENU[0], BOTTOM_MENU[1], self.__left_top[0] + PLAY_AREA[0] + SEPARATOR[0], self.__left_top[1])
+        self.__key_explainer = curses.newwin(KEY_EXPLAINER[0], PLAY_AREA[1] + STATUS_AREA[1], self.__left_top[0] + PLAY_AREA[0] + SEPARATOR[0] + BOTTOM_MENU[0], self.__left_top[1])
 
-        self.__status_area = curses.newwin(STATUS_AREA[0], STATUS_AREA[1], 0, PLAY_AREA[1])
-        self.__score_area = curses.newwin(BOTTOM_MENU[0], STATUS_AREA[1], PLAY_AREA[0] + 1, PLAY_AREA[1])
+        self.__status_area = curses.newwin(STATUS_AREA[0], STATUS_AREA[1], self.__left_top[0], self.__left_top[1] + PLAY_AREA[1])
+        self.__score_area = curses.newwin(BOTTOM_MENU[0], STATUS_AREA[1], self.__left_top[0] + PLAY_AREA[0] + SEPARATOR[0], self.__left_top[1] + BOTTOM_MENU[1])
 
+        # Init margin
+        self.__screen.bkgd(' ', curses.color_pair(2))
+        self.__screen.clear()
+        self.__screen.refresh()
+        self.__screen.bkgd(' ', curses.color_pair(6))
+        self.__screen.clear()
+        self.__screen.refresh()
         #Init play area
         self.__play_area.bkgd(' ', curses.color_pair(1))
         self.__play_area.refresh()
@@ -53,14 +89,14 @@ class Render:
         self.__bottom_menu.bkgd(' ', curses.color_pair(3))
         self.__bottom_menu.refresh()
         # Init key explainer        
-        self.__key_explainer.bkgd(' ', curses.color_pair(3))
+        self.__key_explainer.bkgd(' ', curses.color_pair(7))
         self.__key_explainer.addstr(0, 0, "[Play] <Space> Shoot | <Up>/<Down> Move | <M> Open Menu\n[Menu] <Space>Confirm | <Up>/<Down>Select")
         self.__key_explainer.refresh()
         # Init status area
         self.__status_area.bkgd(' ', curses.color_pair(4))
         self.__status_area.refresh()
         # Init score area
-        self.__score_area.bkgd(' ', curses.color_pair(3))
+        self.__score_area.bkgd(' ', curses.color_pair(5))
         self.__score_area.refresh()
 
     def clear_play_area(self):
@@ -98,7 +134,7 @@ class Render:
 
     def show_message(self, message):
         message_lines = message.split("\n")
-        self.__message_box = curses.newwin(len(message_lines) + 4, 32, 1, PLAY_AREA[1]//2 - 15)
+        self.__message_box = curses.newwin(len(message_lines) + 4, 32, self.__left_top[0] + 1, self.__left_top[1] + PLAY_AREA[1] // 2 - 15)
         for cell in range(0, 31):
             self.__message_box.addstr(0, cell, "-")
             self.__message_box.addstr(len(message_lines) + 3, cell, "-")

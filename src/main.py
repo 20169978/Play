@@ -41,6 +41,7 @@ def main(stdscr):
                 player_manager.draw_player(render)
                 enemy_manager.draw_enemies(render)
                 score_controller.draw_score(render)
+                status_controller.draw_status(render)
 
                 key = stdscr.getch()
                 if key == ord("m"):
@@ -52,19 +53,23 @@ def main(stdscr):
 
                 response = player_manager.update_player(key)
                 if response != None:
-                    if response == "hit_endline":
+                    if "hit_endline" in [x[0] for x in response]:
                         message = "You win!"
                         render.show_message(message)
                         menu_controller.set_menu_options(MENU_PETTERNS["win"])
                         mode = "menu"
                         break
-
-                    if response == "died":
+                    if "died" in [x[0] for x in response]:
                         message = "You died!"
                         render.show_message(message)
                         menu_controller.set_menu_options(MENU_PETTERNS["game_over"])
                         mode = "menu"
                         break
+                    
+                    for data in response:
+                        if data[0] == "bullet_cooldown":
+                            status_controller.set_bullet_cooldown(data[1])
+
 
                 response = enemy_manager.update_enemies()
                 if response != None:

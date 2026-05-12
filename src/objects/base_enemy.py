@@ -16,3 +16,8 @@ class BaseEnemy(ABC):
     @abstractmethod
     def damage(self, power):
         pass
+
+    def kill(self, killed_by_player=True):
+        self.health = 0
+        if not killed_by_player:
+            self.score_value = 0

@@ -35,5 +35,5 @@ class Base(ABC):
     def update(self):
         pass
 
-    def kill(self):
+    def kill(self, killed_by_player=True):
         self.health = 0
