@@ -49,11 +49,17 @@ class Render:
         self.__play_area.clear()
         self.__play_area.refresh()
 
-    def draw_play_area(self, icon, position, color_pair=0):
-        if color_pair:
-            self.__play_area.addstr(position[0], position[1], icon, curses.color_pair(color_pair))
-        else:
-            self.__play_area.addstr(position[0], position[1], icon)
+    def draw_play_area(self, icon, position):
+        # if color_pair:
+        #    self.__play_area.addstr(position[0], position[1], icon, curses.color_pair(color_pair))
+        # else:
+        #     self.__play_area.addstr(position[0], position[1], icon)
+        icons = icon.split("\n")
+        for i in range(0, len(icons)):
+            if position[0] + i >= PLAY_AREA[0]:
+                break
+            self.__play_area.addstr(position[0] + i, position[1], icons[i])
+        
         self.__play_area.refresh()
 
     def show_message(self, message):

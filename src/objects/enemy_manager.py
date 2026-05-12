@@ -1,12 +1,15 @@
 import random
 
 from objects.enemy_test import Enemy_Test
+from objects.enemy_endline import Enemy_Endline
+
 from render import PLAY_AREA
 from objects.player_manager import PlayerManager
 
 
 Enemy_Reference = {
-    "test": Enemy_Test
+    "test": Enemy_Test,
+    "endline": Enemy_Endline
 }
 
 

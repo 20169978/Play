@@ -7,6 +7,7 @@ class Player(Base, Hitbox):
     def __init__(self):
         super().__init__()
         self.hitbox = (0, 0)
+        self.__touching_endline = False
 
     def update(self, key):
         if key == KEY_UP:
@@ -15,4 +16,12 @@ class Player(Base, Hitbox):
             self.position = (min(PLAY_AREA[0] - 1, self.position[0] + 1), self.position[1])
 
     def hit(self, object_hit):
-        self.kill()
+        pass
+
+    @property
+    def touching_endline(self):
+        return self.__touching_endline
+    
+    @touching_endline.setter
+    def touching_endline(self, value):
+        self.__touching_endline = value

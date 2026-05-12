@@ -6,3 +6,4 @@
 80, test, p, p
 90, test, p, p
 100, test, p, 9
+120, endline, 0, 0

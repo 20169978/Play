@@ -13,8 +13,8 @@ FPS = 20
 STAGE = "src/resource/stages/test.txt" # Stage file path <- fix this
 
 def main(stdscr):
-    mode = "play" # or "menu" or "quit" or "message"
-    message = "" # shown message
+    mode = "message" # or "menu" or "quit" or "message"
+    message = "ShootingGame\n<test mode>\n\npress <SPACE> to start" # shown message
 
     render = Render(stdscr)
     if DEBUG:
@@ -40,8 +40,17 @@ def main(stdscr):
                 if key == ord("m"):
                     mode = "menu"
                     break
-                player_manager.update_player(key)
-                enemy_manager.update_enemies()
+                response = player_manager.update_player(key)
+                if response != None:
+                    if response == "hit_endline":
+                        message = "You win!"
+                        mode = "message"
+                        break
+                
+                response = enemy_manager.update_enemies()
+                if response != None:
+                    pass # handle response if needed
+
                 Check_Hitbox()
             
                 elapsed_time = time.time() - start_time
@@ -50,6 +59,7 @@ def main(stdscr):
 
 
             while mode == "menu":
+                start_time = time.time()
                 key = stdscr.getch()
                 if key == ord("q"):
                     mode = "quit"
@@ -63,6 +73,7 @@ def main(stdscr):
                 time.sleep(sleep_time)
 
             while mode == "message":
+                start_time = time.time()
                 render.show_message(message)
 
                 key = stdscr.getch()
@@ -88,3 +99,4 @@ if __name__ == "__main__":
         curses.wrapper(main)
     except curses.error as e:
         print("Curses error:", e)
+        print("Please ensure your terminal supports the required features and is large enough to display the game.")
