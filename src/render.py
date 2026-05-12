@@ -3,6 +3,7 @@ import curses
 # Height, Width
 PLAY_AREA = 10 ,80
 BOTTOM_MENU = 6 ,80
+STATUS_AREA = 10, 20
 
 # Colors
 PLAY_AREA_FG = curses.COLOR_WHITE
@@ -11,6 +12,8 @@ SEPARATOR_FG = curses.COLOR_BLACK
 SEPARATOR_BG = curses.COLOR_WHITE
 BOTTOM_MENU_FG = curses.COLOR_BLACK
 BOTTOM_MENU_BG = curses.COLOR_WHITE
+STATUS_AREA_FG = curses.COLOR_WHITE
+STATUS_AREA_BG = curses.COLOR_BLUE
 
 
 class Render:
@@ -29,12 +32,16 @@ class Render:
         curses.init_pair(1, PLAY_AREA_FG, PLAY_AREA_BG)        
         curses.init_pair(2, SEPARATOR_FG, SEPARATOR_BG)
         curses.init_pair(3, BOTTOM_MENU_FG, BOTTOM_MENU_BG)
+        curses.init_pair(4, STATUS_AREA_FG, STATUS_AREA_BG)
         
         # Setup play area and bottom menu
         self.__play_area = curses.newwin(PLAY_AREA[0], PLAY_AREA[1], 0, 0)
-        self.__separator = curses.newwin(1, PLAY_AREA[1], PLAY_AREA[0], 0)
+        self.__separator = curses.newwin(1, PLAY_AREA[1] + STATUS_AREA[1], PLAY_AREA[0], 0)
         self.__bottom_menu = curses.newwin(BOTTOM_MENU[0], BOTTOM_MENU[1], PLAY_AREA[0] + 1, 0)
-        self.__key_explainer = curses.newwin(2, PLAY_AREA[1], PLAY_AREA[0] + BOTTOM_MENU[0] + 1, 0)
+        self.__key_explainer = curses.newwin(2, PLAY_AREA[1] + STATUS_AREA[1], PLAY_AREA[0] + BOTTOM_MENU[0] + 1, 0)
+
+        self.__status_area = curses.newwin(STATUS_AREA[0], STATUS_AREA[1], 0, PLAY_AREA[1])
+        self.__score_area = curses.newwin(BOTTOM_MENU[0], STATUS_AREA[1], PLAY_AREA[0] + 1, PLAY_AREA[1])
 
         #Init play area
         self.__play_area.bkgd(' ', curses.color_pair(1))
@@ -49,6 +56,12 @@ class Render:
         self.__key_explainer.bkgd(' ', curses.color_pair(3))
         self.__key_explainer.addstr(0, 0, "[Play] <Space> Shoot | <Up>/<Down> Move | <M> Open Menu\n[Menu] <Space>Confirm | <Up>/<Down>Select")
         self.__key_explainer.refresh()
+        # Init status area
+        self.__status_area.bkgd(' ', curses.color_pair(4))
+        self.__status_area.refresh()
+        # Init score area
+        self.__score_area.bkgd(' ', curses.color_pair(3))
+        self.__score_area.refresh()
 
     def clear_play_area(self):
         self.__play_area.clear()
@@ -71,6 +84,16 @@ class Render:
         self.__bottom_menu.clear()
         self.__bottom_menu.addstr(0, 0, text)
         self.__bottom_menu.refresh()
+
+    def draw_status_area(self, text):
+        self.__status_area.clear()
+        self.__status_area.addstr(0, 0, text)
+        self.__status_area.refresh()
+
+    def draw_score_area(self, text):
+        self.__score_area.clear()
+        self.__score_area.addstr(0, 0, text)
+        self.__score_area.refresh()
 
 
     def show_message(self, message):
