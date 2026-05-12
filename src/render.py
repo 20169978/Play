@@ -34,7 +34,8 @@ class Render:
         self.__play_area = curses.newwin(PLAY_AREA[0], PLAY_AREA[1], 0, 0)
         self.__separator = curses.newwin(1, PLAY_AREA[1], PLAY_AREA[0], 0)
         self.__bottom_menu = curses.newwin(BOTTOM_MENU[0], BOTTOM_MENU[1], PLAY_AREA[0] + 1, 0)
-    
+        self.__key_explainer = curses.newwin(2, PLAY_AREA[1], PLAY_AREA[0] + BOTTOM_MENU[0] + 1, 0)
+
         #Init play area
         self.__play_area.bkgd(' ', curses.color_pair(1))
         self.__play_area.refresh()
@@ -44,6 +45,10 @@ class Render:
         # Init menu
         self.__bottom_menu.bkgd(' ', curses.color_pair(3))
         self.__bottom_menu.refresh()
+        # Init key explainer        
+        self.__key_explainer.bkgd(' ', curses.color_pair(3))
+        self.__key_explainer.addstr(0, 0, "[Play] <Space> Shoot | <Up>/<Down> Move | <M> Open Menu\n[Menu] <Space>Confirm | <Up>/<Down>Select")
+        self.__key_explainer.refresh()
 
     def clear_play_area(self):
         self.__play_area.clear()
@@ -61,6 +66,12 @@ class Render:
             self.__play_area.addstr(position[0] + i, position[1], icons[i])
         
         self.__play_area.refresh()
+
+    def draw_menu_area(self, text):
+        self.__bottom_menu.clear()
+        self.__bottom_menu.addstr(0, 0, text)
+        self.__bottom_menu.refresh()
+
 
     def show_message(self, message):
         message_lines = message.split("\n")

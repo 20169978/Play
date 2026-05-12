@@ -9,7 +9,7 @@ class Enemy_Endline(Base, BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
         self.hitbox = (PLAY_AREA[0] - 1, -1)
-        self.icon = "|\n" * PLAY_AREA[1]
+        self.icon = "G\nO\nA\nL" + "\n|" * (PLAY_AREA[0] - 4)
 
     def update(self):
         if self.position[1] > 2:
