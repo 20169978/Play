@@ -1,7 +1,8 @@
 from curses import KEY_UP, KEY_DOWN
 
-MENU_PETTERNS = {
-    "playing": [
+Menu_Pattern = {
+    "default": [],
+    "pouse": [
         ("Continue Game", "play"),
         ("Quit Game", "quit")
     ],
@@ -18,12 +19,12 @@ MENU_PETTERNS = {
 
 class MenuController:
     def __init__(self):
-        self.__menu_state = "playing"
         self.__menu_options = []
+        self.set_menu_options("default")
         self.__selected_option = 0
 
     def set_menu_options(self, options):
-        self.__menu_options = options
+        self.__menu_options = Menu_Pattern[options]
         self.__selected_option = 0
 
     def update_menu(self, key):

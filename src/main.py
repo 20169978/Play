@@ -3,7 +3,7 @@ from render import Render
 from objects.player_manager import PlayerManager
 from objects.enemy_manager import EnemyManager
 from objects.stage_manager import StageManager
-from objects.menu_controller import MENU_PETTERNS, MenuController
+from objects.menu_controller import MenuController
 from objects.status_controller import StatusController
 from objects.score_controller import ScoreController
 
@@ -29,6 +29,8 @@ def main(stdscr):
         score_controller = ScoreController()
 
         #setup menu
+        menu_controller.set_menu_options("default")
+        menu_controller.draw_menu(render)
         #setup stage
         enemy_manager.setup_enemies(stage_manager.get_stage())
         while mode != "quit":
@@ -45,7 +47,7 @@ def main(stdscr):
                 if key == ord("m"):
                     message = "Paused"
                     render.show_message(message)
-                    menu_controller.set_menu_options(MENU_PETTERNS["playing"])
+                    menu_controller.set_menu_options("pouse")
                     mode = "menu"
                     break
 
@@ -54,16 +56,16 @@ def main(stdscr):
                     if "hit_endline" in [x[0] for x in response]:
                         message = "You win!"
                         render.show_message(message)
-                        menu_controller.set_menu_options(MENU_PETTERNS["win"])
+                        menu_controller.set_menu_options("win")
                         mode = "menu"
                         break
                     if "died" in [x[0] for x in response]:
                         message = "You died!"
                         render.show_message(message)
-                        menu_controller.set_menu_options(MENU_PETTERNS["game_over"])
+                        menu_controller.set_menu_options("game_over")
                         mode = "menu"
                         break
-                    
+
                     for data in response:
                         if data[0] == "bullet_cooldown":
                             status_controller.set_bullet_cooldown(data[1])
@@ -96,9 +98,13 @@ def main(stdscr):
                 if response is not None:
                     if response == "play":
                         mode = "play"
+                        menu_controller.set_menu_options("default")
+                        menu_controller.draw_menu(render)
                         break
                     elif response == "quit":
                         mode = "quit"
+                        menu_controller.set_menu_options("default")
+                        menu_controller.draw_menu(render)
                         break
                     elif response == "retry" or response == "next_stage":
                         Hitbox_Clear()
@@ -108,9 +114,11 @@ def main(stdscr):
                         status_controller = StatusController()
                         score_controller = ScoreController()
                         menu_controller = MenuController()
+                        menu_controller.set_menu_options("default")
+                        menu_controller.draw_menu(render)
                         enemy_manager = EnemyManager()
                         enemy_manager.setup_enemies(stage_manager.get_stage())
-                        
+
                         mode = "play"
                         break
 
