@@ -21,6 +21,9 @@ def Check_Hitbox():
            if pos[0] <= obj_2.position[0] <= hitbox_pos[0] and pos[1] <= obj_2.position[1] <= hitbox_pos[1]:
                obj.hit(obj_2)
 
+def Hitbox_Clear():
+    Hitbox.Objects = []
+
 class Hitbox(ABC):
     Objects = []
 

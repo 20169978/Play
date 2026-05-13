@@ -7,14 +7,13 @@ from objects.menu_controller import MENU_PETTERNS, MenuController
 from objects.status_controller import StatusController
 from objects.score_controller import ScoreController
 
-from objects.hitbox import Check_Hitbox
+from objects.hitbox import Check_Hitbox, Hitbox_Clear
 
 import time
 
 
 DEBUG = True
 FPS = 20
-STAGE = "src/resource/stages/test.txt" # Stage file path <- fix this
 
 def main(stdscr):
     mode = "message" # or "menu" or "quit" or "message"
@@ -31,8 +30,7 @@ def main(stdscr):
 
         #setup menu
         #setup stage
-        stage = stage_manager.get_stage(STAGE)
-        enemy_manager.setup_enemies(stage)
+        enemy_manager.setup_enemies(stage_manager.get_stage())
         while mode != "quit":
             while mode == "play":
                 start_time = time.time()
@@ -52,7 +50,7 @@ def main(stdscr):
                     break
 
                 response = player_manager.update_player(key)
-                if response != None:
+                if response is not None:
                     if "hit_endline" in [x[0] for x in response]:
                         message = "You win!"
                         render.show_message(message)
@@ -69,10 +67,14 @@ def main(stdscr):
                     for data in response:
                         if data[0] == "bullet_cooldown":
                             status_controller.set_bullet_cooldown(data[1])
+                        if data[0] == "health":
+                            status_controller.set_health(data[1])
+                        if data[0] == "invicibility_timer":
+                            status_controller.set_invicibility_timer(data[1])
 
 
                 response = enemy_manager.update_enemies()
-                if response != None:
+                if response is not None:
                     for data in response:
                         if data[0] == "score_gained":
                             score_controller.add_score(data[1])
@@ -91,17 +93,26 @@ def main(stdscr):
                 start_time = time.time()
                 key = stdscr.getch()
                 response = menu_controller.update_menu(key)
-                if response != None:
+                if response is not None:
                     if response == "play":
                         mode = "play"
                         break
                     elif response == "quit":
                         mode = "quit"
                         break
-                    elif response == "retry":
-                        pass # implement retry logic
-                    elif response == "next_stage":
-                        pass # implement next stage logic
+                    elif response == "retry" or response == "next_stage":
+                        Hitbox_Clear()
+                        if response == "next_stage":
+                            stage_manager.set_next_stage()
+                        player_manager = PlayerManager()
+                        status_controller = StatusController()
+                        score_controller = ScoreController()
+                        menu_controller = MenuController()
+                        enemy_manager = EnemyManager()
+                        enemy_manager.setup_enemies(stage_manager.get_stage())
+                        
+                        mode = "play"
+                        break
 
                 menu_controller.draw_menu(render)
 

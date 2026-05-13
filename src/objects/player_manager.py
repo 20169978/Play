@@ -13,8 +13,12 @@ class PlayerManager:
         self.__player.icon = ">"
         self.__player.position = (PLAY_AREA[0] // 2, 2)
         self.__player.health = 2
+        self.__player.invicibility_timer = 0
+        self.__player.touching_endline = False
+        
         self.__bullets = []
         self.__bullet_cooldown = 0
+        
 
     def update_player(self, key):
         response = []
@@ -41,8 +45,7 @@ class PlayerManager:
 
         response.append(("bullet_cooldown", self.__bullet_cooldown if self.__bullet_cooldown > 0 else 0))
         response.append(("health", self.__player.health if self.__player.health > 0 else 0))
-        if self.__player.invicibility_timer > 0:
-            response.append(("invicibility_timer", self.__player.invicibility_timer))
+        response.append(("invicibility_timer", self.__player.invicibility_timer))
         
         # Check if player is touching endline
         if self.__player.touching_endline:

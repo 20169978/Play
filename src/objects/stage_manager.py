@@ -1,14 +1,23 @@
-from objects.file_handler import Parse_Stage
+from objects.file_handler import Open_File
 from render import PLAY_AREA
 from objects.enemy_manager import Enemy_Reference
 
 class StageManager:
     def __init__(self):
         super().__init__()
+        self.__current_stage = 0
+        self.__stage = self.__form_stage_data(self.__current_stage)
 
-    def get_stage(self, path):
-        stage = Parse_Stage(path)
+    def __form_stage_data(self, stage_number):
+        path = f"src/resource/stages/stage_{stage_number}.txt"
+        data = Open_File(path)
 
+        stage_lines = data.splitlines()
+        stage = []
+        for line in stage_lines:
+            stage.append((line.split(",")[0].strip(), line.split(",")[1].strip(), line.split(",")[2].strip(), line.split(",")[3].strip()))
+    
+    
         stage_formed = []
         for data in stage:
             time = 0
@@ -47,6 +56,14 @@ class StageManager:
                 pos_from,
                 pos_to
             ))
+
         return stage_formed
+
+    def set_next_stage(self):
+        self.__current_stage += 1
+        self.__stage = self.__form_stage_data(self.__current_stage)
+
+    def get_stage(self):
+        return self.__stage
 
 
