@@ -14,13 +14,16 @@ import time
 
 DEBUG = True
 FPS = 20
- 
-def main(stdscr):
-    mode = "message" # or "menu" or "quit" or "message"
-    message = "ShootingGame\n<test mode>\n\npress <SPACE> to start" # shown message
+TITLE = "ShootingGame"
 
+
+
+def main(stdscr):
     render = Render(stdscr)
     if DEBUG:
+        mode = "message" # or "menu" or "quit" or "message"
+        message = f"{TITLE}\n\nSHOOT to start" # shown message
+
         stage_manager = StageManager()
         player_manager = PlayerManager()
         enemy_manager = EnemyManager()
@@ -141,6 +144,10 @@ def main(stdscr):
                 elapsed_time = time.time() - start_time
                 sleep_time = max(0, (1 / FPS) - elapsed_time)
                 time.sleep(sleep_time)
+    
+
+
+
 
 if __name__ == "__main__":
     try:
