@@ -14,7 +14,7 @@ import time
 
 DEBUG = True
 FPS = 20
-
+ 
 def main(stdscr):
     mode = "message" # or "menu" or "quit" or "message"
     message = "ShootingGame\n<test mode>\n\npress <SPACE> to start" # shown message
