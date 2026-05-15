@@ -31,7 +31,7 @@ class PlayerManager:
                 bullet.remove_hitbox()
                 self.__bullets.remove(bullet)
         # Bullet firing
-        if key == ord(" "):
+        if key == "SHOOT":
             if self.__bullet_cooldown <= 0:
                 self.__bullet_cooldown = BULLET_COOLDOWN
                 bullet = PlayerBullet()

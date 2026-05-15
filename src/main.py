@@ -6,6 +6,7 @@ from objects.stage_manager import StageManager
 from objects.menu_controller import MenuController
 from objects.status_controller import StatusController
 from objects.score_controller import ScoreController
+from objects.key_handler import KeyHandler
 
 from objects.hitbox import Check_Hitbox, Hitbox_Clear
 
@@ -30,6 +31,7 @@ def main(stdscr):
         menu_controller = MenuController()
         status_controller = StatusController()
         score_controller = ScoreController()
+        key_handler = KeyHandler()
 
         #setup menu
         menu_controller.set_menu_options("default")
@@ -46,8 +48,9 @@ def main(stdscr):
                 score_controller.draw_score(render)
                 status_controller.draw_status(render)
 
-                key = stdscr.getch()
-                if key == ord("m"):
+                key_pushed = stdscr.getch()
+                key = key_handler.get_key(key_pushed)
+                if key == "MENU":
                     message = "Paused"
                     render.show_message(message)
                     menu_controller.set_menu_options("pouse")
@@ -96,7 +99,8 @@ def main(stdscr):
 
             while mode == "menu":
                 start_time = time.time()
-                key = stdscr.getch()
+                key_pushed = stdscr.getch()
+                key = key_handler.get_key(key_pushed)
                 response = menu_controller.update_menu(key)
                 if response is not None:
                     if response == "play":
@@ -135,8 +139,9 @@ def main(stdscr):
                 start_time = time.time()
                 render.show_message(message)
 
-                key = stdscr.getch()
-                if key == ord(" "):
+                key_pushed = stdscr.getch()
+                key = key_handler.get_key(key_pushed)
+                if key == "SHOOT":
                     mode = "play"
                     render.clear_message()
                     break

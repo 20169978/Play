@@ -1,5 +1,3 @@
-from curses import KEY_UP, KEY_DOWN
-
 Menu_Pattern = {
     "default": [],
     "pouse": [
@@ -28,11 +26,11 @@ class MenuController:
         self.__selected_option = 0
 
     def update_menu(self, key):
-        if key == KEY_UP:
+        if key == "UP":
             self.__selected_option = (self.__selected_option - 1) % len(self.__menu_options)
-        elif key == KEY_DOWN:
+        elif key == "DOWN":
             self.__selected_option = (self.__selected_option + 1) % len(self.__menu_options)
-        elif key == ord(" "):
+        elif key == "SHOOT":
             return self.__menu_options[self.__selected_option][1]
 
     def draw_menu(self, render):

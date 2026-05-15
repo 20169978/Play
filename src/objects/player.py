@@ -1,6 +1,5 @@
 from objects.base import Base
 from render import PLAY_AREA
-from curses import KEY_UP, KEY_DOWN
 from objects.hitbox import Hitbox
 
 INVICIBILITY_DURATION = 10
@@ -14,9 +13,9 @@ class Player(Base, Hitbox):
 
     def update(self, key):
         self.invicibility_timer = max(0, self.invicibility_timer - 1)
-        if key == KEY_UP:
+        if key == "UP":
             self.position = (max(0, self.position[0] - 1), self.position[1])
-        elif key == KEY_DOWN:
+        elif key == "DOWN":
             self.position = (min(PLAY_AREA[0] - 1, self.position[0] + 1), self.position[1])
 
     def hit(self, object_hit):
