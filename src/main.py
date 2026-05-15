@@ -7,13 +7,14 @@ from objects.menu_controller import MenuController
 from objects.status_controller import StatusController
 from objects.score_controller import ScoreController
 from objects.key_handler import KeyHandler
+from objects.save_data_handler import SaveDataHandler
 
 from objects.hitbox import Check_Hitbox, Hitbox_Clear
 
 import time
 
 
-DEBUG = True
+DEBUG = False
 FPS = 20
 TITLE = "ShootingGame"
 
@@ -160,6 +161,7 @@ def main(stdscr):
         status_controller = StatusController()
         score_controller = ScoreController()
         key_handler = KeyHandler()
+        save_data_handler = SaveDataHandler()
 
         #setup menu
         menu_controller.set_menu_options("default")
@@ -256,6 +258,10 @@ def main(stdscr):
 
                         mode = "play"
                         break
+                    elif response in ["data_1", "data_2", "data_3"]:
+                        save_data_handler.set_user_data(response)
+                        data = save_data_handler.get_data()
+                        
 
                 menu_controller.draw_menu(render)
 
@@ -270,8 +276,10 @@ def main(stdscr):
                 key_pushed = stdscr.getch()
                 key = key_handler.get_key(key_pushed)
                 if key == "SHOOT":
-                    mode = "play"
+                    mode = "menu"
                     render.clear_message()
+                    render.show_message("Chose your data.")
+                    menu_controller.set_menu_options("save_data")
                     break
 
                 elapsed_time = time.time() - start_time

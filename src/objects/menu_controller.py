@@ -12,6 +12,11 @@ Menu_Pattern = {
         ("Next Stage", "next_stage"),
         ("Play Again", "retry"),
         ("Quit Game", "quit")
+    ],
+    "save_data": [
+        ("Data_1", "data_1"),
+        ("Data_2", "data_2"),
+        ("Data_3", "data_3")
     ]
 }
 
