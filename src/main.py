@@ -261,7 +261,11 @@ def main(stdscr):
                     elif response in ["data_1", "data_2", "data_3"]:
                         save_data_handler.set_user_data(response)
                         data = save_data_handler.get_data()
-                        
+                        # skip 
+                        menu_controller.set_menu_options("stage_select")
+                        menu_controller.draw_menu(render)
+
+
 
                 menu_controller.draw_menu(render)
 
