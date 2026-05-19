@@ -8,6 +8,7 @@ class PlayerBullet(BaseBullet, Hitbox):
         self.hitbox = (0,1)
 
     def update(self):
+        self.ex_pos = self.position
         self.position = (self.position[0], self.position[1] + self.speed)
 
     def hit(self, object_hit):

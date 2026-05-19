@@ -12,6 +12,7 @@ class Enemy_Endline(Base, BaseEnemy, Hitbox):
         self.icon = "G\nO\nA\nL" + "\n|" * (PLAY_AREA[0] - 4)
 
     def update(self):
+        self.ex_pos = self.position
         if self.position[1] > 2:
             self.position = (self.position[0], self.position[1] - 1)
             

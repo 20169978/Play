@@ -15,6 +15,7 @@ class Enemy_U(Base, BaseEnemy, Hitbox):
         self.icon = "U"
 
     def update(self):
+        
         self.position = (self.position[0], self.position[1] + 0.6 * self.dir)
         if self.position[1] < 1:
             self.dir *= -1

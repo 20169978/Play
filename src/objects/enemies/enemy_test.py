@@ -11,7 +11,8 @@ class Enemy_Test(Base, BaseEnemy, Hitbox):
         self.power = 1
 
     def update(self):
-        self.position = (self.position[0], self.position[1] - 1)
+        self.ex_pos = self.position
+        self.position = (self.position[0], self.position[1] - 0.6)
         if self.position[1] < 1:
             self.kill(False)
             

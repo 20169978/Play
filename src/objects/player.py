@@ -12,6 +12,7 @@ class Player(Base, Hitbox):
         self.__invicibility_timer = 0
 
     def update(self, key):
+        self.ex_pos = self.position
         self.invicibility_timer = max(0, self.invicibility_timer - 1)
         if key == "UP":
             self.position = (max(0, self.position[0] - 1), self.position[1])
