@@ -5,15 +5,17 @@ Menu_Pattern = {
     "default": [],
     "pouse": [
         ("Continue Game", "play"),
+        ("Select Stage", "select_stage"),
         ("Quit Game", "quit")
     ],
     "game_over": [
         ("Retry Game", "retry"),
+        ("Select Stage", "select_stage"),
         ("Quit Game", "quit")
     ],
     "win": [
         ("Next Stage", "next_stage"),
-        ("Play Again", "retry"),
+        ("Select Stage", "select_stage"),
         ("Quit Game", "quit")
     ],
     "save_data": [
@@ -23,14 +25,14 @@ Menu_Pattern = {
     ],
     "stage_select": [
         ("Stage_1", ("stage",1)),
-        ("Stage_2", "stage,2"),
-        ("Stage_3", "stage,3"),
-        ("Stage_4", "stage,4"),
-        ("Stage_5", "stage,5"),
-        ("Stage_6", "stage,6"),
-        ("Stage_7", "stage,7"),
-        ("Stage_8", "stage,8"),
-        ("Stage_9", "stage,9"),
+        ("Stage_2", ("stage",2)),
+        ("Stage_3", ("stage",3)),
+        ("Stage_4", ("stage",4)),
+        ("Stage_5", ("stage",5)),
+        ("Stage_6", ("stage",6)),
+        ("Stage_7", ("stage",7)),
+        ("Stage_8", ("stage",8)),
+        ("Stage_9", ("stage",9)),
     ]
 }
 
