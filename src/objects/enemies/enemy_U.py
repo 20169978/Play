@@ -11,6 +11,7 @@ class Enemy_U(Base, BaseEnemy, Hitbox):
         self.score_value = 10
         self.power = 1
         self.dir = -1
+        self.health = 1
         self.icon = "U"
 
     def update(self):
@@ -21,6 +22,7 @@ class Enemy_U(Base, BaseEnemy, Hitbox):
             self.dir *= -1
             
     def damage(self, power):
+        print("hit")
         self.health -= power
         if self.health < 1:
             self.kill()
