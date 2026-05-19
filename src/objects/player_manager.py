@@ -25,7 +25,7 @@ class PlayerManager:
         # Update bullets
         for bullet in self.__bullets:
             bullet.update()
-            if bullet.position[1] >= PLAY_AREA[1]:
+            if bullet.position[1] > PLAY_AREA[1] - 2:
                 self.__bullets.remove(bullet)
             if bullet.health < 1:
                 bullet.remove_hitbox()
