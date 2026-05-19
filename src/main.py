@@ -170,6 +170,13 @@ def main(stdscr):
     else:
         mode = "message" # or "menu" or "quit" or "message"
         message = f"{TITLE}\n\nSHOOT to start" # shown message
+        def save_data_check():
+            m.render.clear_message()
+            m.render.show_message("Chose your data.")
+            m.menu_controller.set_menu_options("save_data")
+            return "menu"
+
+        after_message = save_data_check
 
         #setup menu
         m.menu_controller.set_menu_options("default")
@@ -243,6 +250,10 @@ def main(stdscr):
                 results = m.menu_controller.update_menu(key)
                 response = results[0] if type(results) is tuple else results
                 if response is not None:
+
+                    def pause_before_start():
+                        return "play"
+
                     if response == "play":
                         mode = "play"
                         m.menu_controller.set_menu_options("default")
@@ -255,8 +266,11 @@ def main(stdscr):
                         break
                     elif response == "retry" or response == "next_stage":
                         m.set_up()
+                        m.render.clear_message()
+                        message = f"Are you Ready..?\n\n!SHOOT!\nstage{m.stage_manager.current_stage}"
 
-                        mode = "play"
+                        after_message = pause_before_start
+                        mode = "message"
                         break
                     elif response in ["data_1", "data_2", "data_3"]:
                         m.save_data_handler.set_user_data(response)
@@ -269,13 +283,16 @@ def main(stdscr):
                     elif response == "stage":
                         stage_num = results[1]
                         if m.stage_manager.current_stage < stage_num:
-                            print("here")
                             message = f"Stage_{stage_num} is locked.\nNext stage is Stage_{data[0]}"
                             m.render.show_message(message)
                         else:
                             m.stage_manager.current_stage = stage_num
                             m.set_up()
-                            mode = "play"
+                            m.render.clear_message()
+                            message = f"Are you Ready..?\n\n!!SHOOT!!\nstage_{m.stage_manager.current_stage}"
+
+                            after_message = pause_before_start
+                            mode = "message"
                             break
                     elif response == "select_stage":
                         message = f"Next stage is Stage_{stage_manager.current_stage}"
@@ -291,15 +308,13 @@ def main(stdscr):
 
             while mode == "message":
                 start_time = time.time()
+                
                 m.render.show_message(message)
 
                 key_pushed = stdscr.getch()
                 key = m.key_handler.get_key(key_pushed)
                 if key == "SHOOT":
-                    mode = "menu"
-                    m.render.clear_message()
-                    m.render.show_message("Chose your data.")
-                    m.menu_controller.set_menu_options("save_data")
+                    mode = after_message()
                     break
 
                 elapsed_time = time.time() - start_time

@@ -147,4 +147,4 @@ class Render:
         self.__message_box.refresh()
 
     def clear_message(self):
-        del self.__message_box
+        self.__message_box.clear()
