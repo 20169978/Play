@@ -231,7 +231,8 @@ def main(stdscr):
                 start_time = time.time()
                 key_pushed = stdscr.getch()
                 key = key_handler.get_key(key_pushed)
-                response = menu_controller.update_menu(key)
+                results = menu_controller.update_menu(key)
+                response = results[0] if type(results) is tuple else results
                 if response is not None:
                     if response == "play":
                         mode = "play"
@@ -261,11 +262,23 @@ def main(stdscr):
                     elif response in ["data_1", "data_2", "data_3"]:
                         save_data_handler.set_user_data(response)
                         data = save_data_handler.get_data()
-                        # skip 
+                        
+                        message = f"Next stage is Stage_{data[0]}"
+                        render.show_message(message)
+                        stage_manager.current_stage = data[0]
                         menu_controller.set_menu_options("stage_select")
-                        menu_controller.draw_menu(render)
-
-
+                    elif response == "stage":
+                        stage_num = results[1]
+                        if stage_manager.current_stage < stage_num:
+                            message = f"Stage_{stage_num} is locked.\nNext stage is Stage_{data[0]}"
+                            render.show_message(message)
+                            return
+                        else:
+                            stage_manager.current_stage = stage_num
+                            menu_controller.set_menu_options("default")
+                            menu_controller.draw_menu(render)
+                            mode = "play"
+                            break
 
                 menu_controller.draw_menu(render)
 

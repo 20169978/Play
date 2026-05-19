@@ -22,7 +22,7 @@ Menu_Pattern = {
         ("Data_3", "data_3")
     ],
     "stage_select": [
-        ("Stage_1", "stage,1"),
+        ("Stage_1", ("stage",1)),
         ("Stage_2", "stage,2"),
         ("Stage_3", "stage,3"),
         ("Stage_4", "stage,4"),

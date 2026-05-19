@@ -66,4 +66,11 @@ class StageManager:
     def get_stage(self):
         return self.__stage
 
-
+    @property
+    def current_stage(self):
+        return self.__current_stage
+    
+    @current_stage.setter
+    def current_stage(self, stage_num):
+        self.__current_stage = stage_num
+        self.__form_stage_data(self.__current_stage)
