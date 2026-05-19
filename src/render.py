@@ -1,11 +1,11 @@
 import curses
 
 # Height, Width
-PLAY_AREA = 10 ,80
-SEPARATOR = 1, 100
-BOTTOM_MENU = 6 ,80
+PLAY_AREA = 10 ,81
+SEPARATOR = 1, 101
+BOTTOM_MENU = 6 ,81
 STATUS_AREA = 10, 20
-KEY_EXPLAINER = 2, 100
+KEY_EXPLAINER = 2, 101
 
 
 # Colors
@@ -65,7 +65,7 @@ class Render:
         screen_size = self.__screen.getmaxyx()
         self.__left_top = (screen_size[0] // 2 - (PLAY_AREA[0] + BOTTOM_MENU[0] + KEY_EXPLAINER[0] + SEPARATOR[0]) // 2, screen_size[1] // 2 - (PLAY_AREA[1] + STATUS_AREA[1]) // 2)
         self.__play_area = curses.newwin(PLAY_AREA[0], PLAY_AREA[1], self.__left_top[0], self.__left_top[1])
-        self.__separator = curses.newwin(1, PLAY_AREA[1] + STATUS_AREA[1], self.__left_top[0] + PLAY_AREA[0], self.__left_top[1])
+        self.__separator = curses.newwin(SEPARATOR[0], SEPARATOR[1], self.__left_top[0] + PLAY_AREA[0], self.__left_top[1])
         self.__bottom_menu = curses.newwin(BOTTOM_MENU[0], BOTTOM_MENU[1], self.__left_top[0] + PLAY_AREA[0] + SEPARATOR[0], self.__left_top[1])
         self.__key_explainer = curses.newwin(KEY_EXPLAINER[0], PLAY_AREA[1] + STATUS_AREA[1], self.__left_top[0] + PLAY_AREA[0] + SEPARATOR[0] + BOTTOM_MENU[0], self.__left_top[1])
 
@@ -108,10 +108,11 @@ class Render:
         #    self.__play_area.addstr(position[0], position[1], icon, curses.color_pair(color_pair))
         # else:
         #     self.__play_area.addstr(position[0], position[1], icon)
+        self.__play_area.addstr(0, 0, "`")
         icons = icon.split("\n")
         for i in range(0, len(icons)):
             if position[0] + i >= PLAY_AREA[0]:
-                break
+                continue
             self.__play_area.addstr(position[0] + i, position[1], icons[i])
         
         self.__play_area.refresh()
