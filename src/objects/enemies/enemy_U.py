@@ -17,12 +17,11 @@ class Enemy_U(Base, BaseEnemy, Hitbox):
         self.ex_pos = self.position
         self.position = (self.position[0], self.position[1] + 0.6 * self.dir)
         if self.position[1] < 1:
-            self.dir *= -1
-        if self.position[1] > PLAY_AREA[1] - 2:
-            self.dir *= -1
+            self.dir = 1
+        if self.position[1] > PLAY_AREA[1] - 3:
+            self.dir = -1
             
     def damage(self, power):
-        print("hit")
         self.health -= power
         if self.health < 1:
             self.kill()
