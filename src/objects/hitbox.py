@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-
+Y_BUFFER = 0.4
+X_BUFFER = 0.2
 
 def Check_Hitbox():
     queue = []
@@ -13,12 +14,12 @@ def Check_Hitbox():
             continue
 
         obj_hitbox_left_top = (
-            pos[0] if pos[0] < ex_pos[0] else ex_pos[0],
-            pos[1] - 0.5 if pos[1] < ex_pos[1] else ex_pos[1] - 0.5
+            pos[0] - Y_BUFFER if pos[0] < ex_pos[0] else ex_pos[0] - Y_BUFFER,
+            pos[1] - X_BUFFER if pos[1] < ex_pos[1] else ex_pos[1]- X_BUFFER
         )
         obj_hitbox_right_bottom = (
-            ex_pos[0] if pos[0] < ex_pos[0] else pos[0],
-            ex_pos[1] + 0.5 if pos[1] < ex_pos[1] else pos[1] + 0.5
+            ex_pos[0] + Y_BUFFER if pos[0] < ex_pos[0] else pos[0] + Y_BUFFER,
+            ex_pos[1]+ X_BUFFER if pos[1] < ex_pos[1] else pos[1]+ X_BUFFER
         )
 
         for j in queue:
@@ -26,15 +27,17 @@ def Check_Hitbox():
             pos = obj_2.position
             ex_pos = obj_2.ex_pos
             obj2_hitbox_left_top = (
-                pos[0] if pos[0] < ex_pos[0] else ex_pos[0],
-                pos[1] - 0.5 if pos[1] < ex_pos[1] else ex_pos[1] - 0.5
+                pos[0] - Y_BUFFER if pos[0] < ex_pos[0] else ex_pos[0] - Y_BUFFER ,
+                pos[1]- X_BUFFER if pos[1] < ex_pos[1] else ex_pos[1]- X_BUFFER
             )
             obj2_hitbox_right_bottom = (
-                ex_pos[0] if pos[0] < ex_pos[0] else pos[0],
-                ex_pos[1] + 0.5 if pos[1] < ex_pos[1] else pos[1] + 0.5
+                ex_pos[0] + Y_BUFFER if pos[0] < ex_pos[0] else pos[0] + Y_BUFFER,
+                ex_pos[1]+ X_BUFFER if pos[1] < ex_pos[1] else pos[1]+ X_BUFFER
             )
            
             if check_hit(obj_hitbox_left_top, obj_hitbox_right_bottom, obj2_hitbox_left_top, obj2_hitbox_right_bottom):
+                print(f"1lt{str(obj_hitbox_left_top)},1rb{str(obj_hitbox_right_bottom)}")
+                print(f"2lt{str(obj2_hitbox_left_top)},2rb{str(obj2_hitbox_right_bottom)}")
                 obj.hit(obj_2)
                 obj_2.hit(obj)
         

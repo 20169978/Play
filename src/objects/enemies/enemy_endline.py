@@ -18,6 +18,7 @@ class Enemy_Endline(Base, BaseEnemy, Hitbox):
             self.position = (self.position[0], 2)
             
     def damage(self, power):
+        print("hit")
         pass
 
     def hit(self, object_hit):
