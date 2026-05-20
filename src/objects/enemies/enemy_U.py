@@ -7,7 +7,6 @@ from render import PLAY_AREA
 class Enemy_U(Base, BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
-        self.hitbox = (0, -1)
         self.score_value = 10
         self.power = 1
         self.dir = -1
@@ -15,7 +14,7 @@ class Enemy_U(Base, BaseEnemy, Hitbox):
         self.icon = "U"
 
     def update(self):
-        
+        self.ex_pos = self.position
         self.position = (self.position[0], self.position[1] + 0.6 * self.dir)
         if self.position[1] < 1:
             self.dir *= -1

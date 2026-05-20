@@ -5,7 +5,6 @@ from objects.base_enemy import BaseEnemy
 class PlayerBullet(BaseBullet, Hitbox):
     def __init__(self):
         super().__init__()
-        self.hitbox = (0,1)
 
     def update(self):
         self.ex_pos = self.position

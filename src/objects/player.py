@@ -7,7 +7,6 @@ INVICIBILITY_DURATION = 10
 class Player(Base, Hitbox):
     def __init__(self):
         super().__init__()
-        self.hitbox = (0, 0)
         self.__touching_endline = False
         self.__invicibility_timer = 0
 

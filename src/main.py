@@ -98,7 +98,6 @@ def main(stdscr):
                         if data[0] == "invicibility_timer":
                             m.status_controller.set_invicibility_timer(data[1])
 
-
                 response = m.enemy_manager.update_enemies()
                 if response is not None:
                     for data in response:

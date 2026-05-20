@@ -14,11 +14,11 @@ def Check_Hitbox():
 
         obj_hitbox_left_top = (
             pos[0] if pos[0] < ex_pos[0] else ex_pos[0],
-            pos[1] if pos[1] < ex_pos[1] else ex_pos[1]
+            pos[1] - 0.5 if pos[1] < ex_pos[1] else ex_pos[1] - 0.5
         )
         obj_hitbox_right_bottom = (
             ex_pos[0] if pos[0] < ex_pos[0] else pos[0],
-            ex_pos[1] if pos[1] < ex_pos[1] else pos[1]
+            ex_pos[1] + 0.5 if pos[1] < ex_pos[1] else pos[1] + 0.5
         )
 
         for j in queue:
@@ -27,11 +27,11 @@ def Check_Hitbox():
             ex_pos = obj_2.ex_pos
             obj2_hitbox_left_top = (
                 pos[0] if pos[0] < ex_pos[0] else ex_pos[0],
-                pos[1] if pos[1] < ex_pos[1] else ex_pos[1]
+                pos[1] - 0.5 if pos[1] < ex_pos[1] else ex_pos[1] - 0.5
             )
             obj2_hitbox_right_bottom = (
                 ex_pos[0] if pos[0] < ex_pos[0] else pos[0],
-                ex_pos[1] if pos[1] < ex_pos[1] else pos[1]
+                ex_pos[1] + 0.5 if pos[1] < ex_pos[1] else pos[1] + 0.5
             )
            
             if check_hit(obj_hitbox_left_top, obj_hitbox_right_bottom, obj2_hitbox_left_top, obj2_hitbox_right_bottom):
@@ -54,17 +54,8 @@ class Hitbox(ABC):
 
     def __init__(self): # size(x,y). 0,0 = 1 cell
         super().__init__()
-        self.__hitbox = (0, 0)
         self.__ex_pos = (-1, -1)
         Hitbox.Objects.append(self)
-        
-    @property
-    def hitbox(self):
-        return self.__hitbox
-    
-    @hitbox.setter
-    def hitbox(self, value):
-        self.__hitbox = value
 
     @property
     def ex_pos(self):

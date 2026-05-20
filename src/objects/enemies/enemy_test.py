@@ -2,19 +2,24 @@ from objects.base import Base
 from objects.base_enemy import BaseEnemy
 from objects.hitbox import Hitbox
 from objects.player import Player
+from render import PLAY_AREA
 
 class Enemy_Test(Base, BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
-        self.hitbox = (0, -1)
         self.score_value = 10
         self.power = 1
+        self.__dir = 1
 
     def update(self):
         self.ex_pos = self.position
-        self.position = (self.position[0], self.position[1] - 0.6)
+        self.position = (self.position[0] + 0.1 * self.__dir, self.position[1] - 0.5)
         if self.position[1] < 1:
             self.kill(False)
+        if self.position[0] < 1:
+            self.__dir = 1
+        if self.position[0] > PLAY_AREA[0] - 2:
+            self.__dir = -1
             
     def damage(self, power):
         self.health -= power
