@@ -3,6 +3,7 @@ from objects.base_enemy import BaseEnemy
 from objects.hitbox import Hitbox
 from objects.player import Player
 from render import PLAY_AREA
+from objects.effects.effect_bomb import Effect_Bomb
 
 class Enemy_Test(Base, BaseEnemy, Hitbox):
     def __init__(self):
@@ -24,6 +25,7 @@ class Enemy_Test(Base, BaseEnemy, Hitbox):
     def damage(self, power):
         self.health -= power
         if self.health < 1:
+            Effect_Bomb(self.position)
             self.kill()
 
     def hit(self, object_hit):

@@ -8,6 +8,7 @@ from objects.status_controller import StatusController
 from objects.score_controller import ScoreController
 from objects.key_handler import KeyHandler
 from objects.save_data_handler import SaveDataHandler
+from objects.effect_manager import EffectManager
 
 from objects.hitbox import Check_Hitbox, Hitbox_Clear
 
@@ -29,6 +30,7 @@ class Managers():
     def set_up(self):
         Hitbox_Clear()
         self.player_manager = PlayerManager()
+        self.effect_manager = EffectManager()
         self.enemy_manager = EnemyManager()
         self.menu_controller = MenuController()
         self.status_controller = StatusController()
@@ -60,6 +62,7 @@ def main(stdscr):
                 start_time = time.time()
 
                 m.render.clear_play_area()
+                m.effect_manager.draw_effects(m.render)
                 m.player_manager.draw_player(m.render)
                 m.enemy_manager.draw_enemies(m.render)
                 m.score_controller.draw_score(m.render)
@@ -73,6 +76,8 @@ def main(stdscr):
                     m.menu_controller.set_menu_options("pouse")
                     mode = "menu"
                     break
+
+                response = m.effect_manager.update_effects()
 
                 response = m.player_manager.update_player(key)
                 if response is not None:

@@ -48,7 +48,10 @@ class EnemyManager:
         score_gained = 0
         enemy_killed_counter = 0
         for enemy in self.enemies:
-            enemy.update()
+            enemy_response = enemy.update()
+            if enemy_response != None:
+                for res in enemy_response:
+                    if res[0] ==   
             if enemy.health < 1:
                 enemy.remove_hitbox()
                 if enemy.score_value > 0:
