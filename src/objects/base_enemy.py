@@ -19,6 +19,14 @@ class BaseEnemy(Base, ABC):
     def score_value(self, value):    
         self.__score_value = value
 
+    @property
+    def death_effect(self):
+        return self.__death_effect
+    
+    @death_effect.setter
+    def death_eefect(self, value):
+        self.__death_effect = value
+
     def kill(self, killed_by_player=True):
         self.health = 0
         if not killed_by_player:

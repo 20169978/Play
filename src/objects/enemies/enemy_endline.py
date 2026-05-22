@@ -7,6 +7,7 @@ class Enemy_Endline(BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
         self.icon = "⚑"
+        self.response = []
 
     def update(self):
         self.ex_pos = self.position

@@ -22,7 +22,6 @@ class EffectManager:
             render.draw_play_area(effect.icon, effect.position)
 
     def add_effect(self, new_effect_info):
-        
         if new_effect_info[0] in EFFECT_REF.keys():
             effect = EFFECT_REF[new_effect_info[0]](new_effect_info[1])
             self.__effects.append(effect)

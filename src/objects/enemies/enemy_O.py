@@ -14,20 +14,19 @@ class Enemy_O(BaseEnemy, Hitbox):
         self.position = (self.position[0], self.position[1] - 0.5)
         if self.position[1] < 1:
             self.kill(False)
-            
-    def damage(self, power):
-        self.health -= power
-        if self.health < 1:
-            self.kill()
-        elif self.health < 2:
-            self.icon = "o"
-
+        
         response = []
         for res in self.response:
             result = res()
             if result != None:
-                response.append(result)
+                for v in result:
+                    response.append(v)
         if len(response) > 0:
             return response
         else:
             return None
+            
+    def damage(self, power):
+        super().damage(power)
+        if self.health < 2:
+            self.icon = "o"

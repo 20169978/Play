@@ -223,6 +223,7 @@ def main(stdscr):
                 start_time = time.time()
 
                 m.render.clear_play_area()
+                m.effect_manager.draw_effects(m.render)
                 m.player_manager.draw_player(m.render)
                 m.enemy_manager.draw_enemies(m.render)
                 m.score_controller.draw_score(m.render)
@@ -236,6 +237,8 @@ def main(stdscr):
                     m.menu_controller.set_menu_options("pouse")
                     mode = "menu"
                     break
+
+                response = m.effect_manager.update_effects()
 
                 response = m.player_manager.update_player(key)
                 if response is not None:
@@ -261,14 +264,18 @@ def main(stdscr):
                         if data[0] == "invicibility_timer":
                             m.status_controller.set_invicibility_timer(data[1])
 
-
                 response = m.enemy_manager.update_enemies()
                 if response is not None:
                     for data in response:
                         if data[0] == "score_gained":
                             m.score_controller.add_score(data[1])
-                        elif data[0] == "enemy_killed":
+                            continue
+                        if data[0] == "enemy_killed":
                             m.score_controller.add_enemy_killed(data[1])
+                            continue
+                        if data[0] == "effect":
+                            m.effect_manager.add_effect(data[1])
+                            continue
 
                 m.score_controller.add_distance(1)
                 Check_Hitbox()

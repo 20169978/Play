@@ -29,7 +29,3 @@ class Enemy_U(BaseEnemy, Hitbox):
         else:
             return None
             
-    def damage(self, power):
-        self.health -= power
-        if self.health < 1:
-            self.kill()
