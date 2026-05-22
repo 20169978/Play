@@ -1,11 +1,8 @@
-from objects.base import Base
 from objects.base_enemy import BaseEnemy
 from objects.hitbox import Hitbox
-from objects.player import Player
 from render import PLAY_AREA
-from objects.effects.effect_bomb import Effect_Bomb
 
-class Enemy_Test(Base, BaseEnemy, Hitbox):
+class Enemy_Test(BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
         self.score_value = 10
@@ -21,14 +18,18 @@ class Enemy_Test(Base, BaseEnemy, Hitbox):
             self.__dir = 1
         if self.position[0] > PLAY_AREA[0] - 2:
             self.__dir = -1
-            
-    def damage(self, power):
-        self.health -= power
-        if self.health < 1:
-            Effect_Bomb(self.position)
-            self.kill()
 
-    def hit(self, object_hit):
-        if isinstance(object_hit, Player):
-            object_hit.damage(self.power)
-            self.kill(False)
+        response = []
+        for res in self.response:
+            result = res()
+            if result != None:
+                for v in result:
+                    response.append(v)
+        if len(response) > 0:
+            return response
+        else:
+            return None
+        
+    
+            
+    

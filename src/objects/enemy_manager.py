@@ -51,13 +51,17 @@ class EnemyManager:
             enemy_response = enemy.update()
             if enemy_response != None:
                 for res in enemy_response:
-                    if res[0] ==   
-            if enemy.health < 1:
-                enemy.remove_hitbox()
-                if enemy.score_value > 0:
-                    score_gained += enemy.score_value
-                    enemy_killed_counter += 1
-                self.enemies.remove(enemy)
+                    if res[0] == "death":
+                        enemy.remove_hitbox()
+                        if res[1] > 0:
+                            score_gained += res[1]
+                            enemy_killed_counter += 1
+                        self.enemies.remove(enemy)
+                        continue
+                    if res[0] == "effect":
+                        return_data.append(res)
+                        continue
+
         if score_gained > 0:
             return_data.append(("score_gained", score_gained))
         if enemy_killed_counter > 0:
@@ -66,22 +70,7 @@ class EnemyManager:
 
     def draw_enemies(self, render):
         for enemy in self.enemies:
-            render.draw_play_area(enemy.icon, self.__calc_pos(enemy.position))
-
-    def __calc_pos(self, pos):
-        y = 0
-        x = 0
-        if type(pos[0]) is int:
-            y = pos[0]
-        else:
-            y = PLAY_AREA[0] - 1 if int((pos[0] * 2 + 1)//2) > PLAY_AREA[0] - 1 else int((pos[0] * 2 + 1)//2)
-
-        if type(pos[1]) is int:
-            x = pos[1]
-        else:
-            x = int((pos[1] * 2 + 1)//2)
-
-        return (y,x)
+            render.draw_play_area(enemy.icon, enemy.position)
 
     def setup_enemies(self, stage):
         for enemy_data in stage:

@@ -110,6 +110,8 @@ class Render:
         #     self.__play_area.addstr(position[0], position[1], icon)
         self.__play_area.addstr(0, 0, "`")
         icons = icon.split("\n")
+
+        position = self.calc_pos(position)
         for i in range(0, len(icons)):
             if position[0] + i >= PLAY_AREA[0]:
                 continue
@@ -149,3 +151,19 @@ class Render:
 
     def clear_message(self):
         self.__message_box.clear()
+
+
+    def calc_pos(self, pos):
+        y = 0
+        x = 0
+        if type(pos[0]) is int:
+            y = pos[0]
+        else:
+            y = PLAY_AREA[0] - 1 if int((pos[0] * 2 + 1)//2) > PLAY_AREA[0] - 1 else int((pos[0] * 2 + 1)//2)
+
+        if type(pos[1]) is int:
+            x = pos[1]
+        else:
+            x = int((pos[1] * 2 + 1)//2)
+
+        return (y,x)

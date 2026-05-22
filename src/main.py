@@ -108,8 +108,13 @@ def main(stdscr):
                     for data in response:
                         if data[0] == "score_gained":
                             m.score_controller.add_score(data[1])
-                        elif data[0] == "enemy_killed":
+                            continue
+                        if data[0] == "enemy_killed":
                             m.score_controller.add_enemy_killed(data[1])
+                            continue
+                        if data[0] == "effect":
+                            m.effect_manager.add_effect(data[1])
+                            continue
 
                 m.score_controller.add_distance(1)
                 Check_Hitbox()

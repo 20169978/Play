@@ -11,6 +11,7 @@ class Base_Effect(ABC):
         if len(self.__animation) < 1:
             return False
         self.__icon = self.__animation.pop(0)
+        
         return True
     
     def update(self):
@@ -31,3 +32,11 @@ class Base_Effect(ABC):
     @position.setter
     def position(self, value):
         self.__position = value
+
+    @property
+    def animation(self):
+        return self.__animation
+    
+    @animation.setter
+    def animation(self, value):
+        self.__animation = value

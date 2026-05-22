@@ -1,11 +1,9 @@
 from objects.player import Player
-from objects.base import Base
 from objects.base_enemy import BaseEnemy
 from objects.hitbox import Hitbox
-from render import PLAY_AREA
 
 
-class Enemy_Endline(Base, BaseEnemy, Hitbox):
+class Enemy_Endline(BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
         self.icon = "⚑"
@@ -16,9 +14,18 @@ class Enemy_Endline(Base, BaseEnemy, Hitbox):
             self.position = (self.position[0], self.position[1] - 0.3)
         else:
             self.position = (self.position[0], 2)
+
+        response = []
+        for res in self.response:
+            result = res()
+            if result != None:
+                response.append(result)
+        if len(response) > 0:
+            return response
+        else:
+            return None
             
     def damage(self, power):
-        print("hit")
         pass
 
     def hit(self, object_hit):

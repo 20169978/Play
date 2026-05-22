@@ -36,8 +36,8 @@ def Check_Hitbox():
             )
            
             if check_hit(obj_hitbox_left_top, obj_hitbox_right_bottom, obj2_hitbox_left_top, obj2_hitbox_right_bottom):
-                print(f"1lt{str(obj_hitbox_left_top)},1rb{str(obj_hitbox_right_bottom)}")
-                print(f"2lt{str(obj2_hitbox_left_top)},2rb{str(obj2_hitbox_right_bottom)}")
+                # print(f"1lt{str(obj_hitbox_left_top)},1rb{str(obj_hitbox_right_bottom)}")
+                # print(f"2lt{str(obj2_hitbox_left_top)},2rb{str(obj2_hitbox_right_bottom)}")
                 obj.hit(obj_2)
                 obj_2.hit(obj)
         

@@ -1,9 +1,7 @@
-from objects.base import Base
 from objects.base_enemy import BaseEnemy
 from objects.hitbox import Hitbox
-from objects.player import Player
 
-class Enemy_O(Base, BaseEnemy, Hitbox):
+class Enemy_O(BaseEnemy, Hitbox):
     def __init__(self):
         super().__init__()
         self.score_value = 20
@@ -24,7 +22,12 @@ class Enemy_O(Base, BaseEnemy, Hitbox):
         elif self.health < 2:
             self.icon = "o"
 
-    def hit(self, object_hit):
-        if isinstance(object_hit, Player):
-            object_hit.damage(self.power)
-            self.kill(False)
+        response = []
+        for res in self.response:
+            result = res()
+            if result != None:
+                response.append(result)
+        if len(response) > 0:
+            return response
+        else:
+            return None
