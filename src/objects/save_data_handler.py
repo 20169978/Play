@@ -3,7 +3,7 @@ from objects.file_handler import Open_File
 class SaveDataHandler():
     def __init__(self):
         self.__user_data_name = "data_1"
-        text = Open_File(f"src/resource/save_data/save_data.txt")
+        text = Open_File(f"resource/save_data/save_data.txt")
         self.__save_data = {}
         for line in text.splitlines():
             values = line.split(",")

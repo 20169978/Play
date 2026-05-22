@@ -9,7 +9,7 @@ class StageManager:
         self.__stage = self.__form_stage_data(self.__current_stage)
 
     def __form_stage_data(self, stage_number):
-        path = f"src/resource/stages/stage_{stage_number}.txt"
+        path = f"resource/stages/stage_{stage_number}.txt"
         data = Open_File(path)
 
         stage_lines = data.splitlines()
