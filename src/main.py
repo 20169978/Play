@@ -68,7 +68,14 @@ def main(stdscr):
                 m.score_controller.draw_score(m.render)
                 m.status_controller.draw_status(m.render)
 
-                key_pushed = stdscr.getch()
+                key_pushed = -1
+                while True:
+                    key_hold = stdscr.getch()
+
+                    if key_hold == -1:
+                        break
+                    key_pushed = key_hold
+
                 key = m.key_handler.get_key(key_pushed)
                 if key == "MENU":
                     message = "Paused"
@@ -126,7 +133,13 @@ def main(stdscr):
 
             while mode == "menu":
                 start_time = time.time()
-                key_pushed = stdscr.getch()
+                key_pushed = -1
+                while True:
+                    key_hold = stdscr.getch()
+
+                    if key_hold == -1:
+                        break
+                    key_pushed = key_hold
                 key = m.key_handler.get_key(key_pushed)
                 results = m.menu_controller.update_menu(key)
                 response = results[0] if type(results) is tuple else results
@@ -193,7 +206,13 @@ def main(stdscr):
                 
                 m.render.show_message(message)
 
-                key_pushed = stdscr.getch()
+                key_pushed = -1
+                while True:
+                    key_hold = stdscr.getch()
+
+                    if key_hold == -1:
+                        break
+                    key_pushed = key_hold
                 key = m.key_handler.get_key(key_pushed)
                 if key == "SHOOT":
                     mode = after_message()
@@ -229,7 +248,13 @@ def main(stdscr):
                 m.score_controller.draw_score(m.render)
                 m.status_controller.draw_status(m.render)
 
-                key_pushed = stdscr.getch()
+                key_pushed = -1
+                while True:
+                    key_hold = stdscr.getch()
+
+                    if key_hold == -1:
+                        break
+                    key_pushed = key_hold
                 key = m.key_handler.get_key(key_pushed)
                 if key == "MENU":
                     message = "Paused"
@@ -287,7 +312,13 @@ def main(stdscr):
 
             while mode == "menu":
                 start_time = time.time()
-                key_pushed = stdscr.getch()
+                key_pushed = -1
+                while True:
+                    key_hold = stdscr.getch()
+
+                    if key_hold == -1:
+                        break
+                    key_pushed = key_hold
                 key = m.key_handler.get_key(key_pushed)
                 results = m.menu_controller.update_menu(key)
                 response = results[0] if type(results) is tuple else results
@@ -353,7 +384,13 @@ def main(stdscr):
                 
                 m.render.show_message(message)
 
-                key_pushed = stdscr.getch()
+                key_pushed = -1
+                while True:
+                    key_hold = stdscr.getch()
+
+                    if key_hold == -1:
+                        break
+                    key_pushed = key_hold
                 key = m.key_handler.get_key(key_pushed)
                 if key == "SHOOT":
                     mode = after_message()
