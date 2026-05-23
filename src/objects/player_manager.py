@@ -1,5 +1,5 @@
 from objects.player import Player
-from render import PLAY_AREA
+from render import PLAY_AREA, MOVABLE_AREA
 from objects.player_bullet import PlayerBullet
 
 BULLET_COOLDOWN = 5

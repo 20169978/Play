@@ -5,6 +5,8 @@ class KeyHandler:
         self.__key_config = {
             "UP": [curses.KEY_UP, ord("w")],
             "DOWN": [curses.KEY_DOWN, ord("s")],
+            "LEFT": [curses.KEY_LEFT, ord("a")],
+            "RIGHT": [curses.KEY_RIGHT, ord("d")],
             "SHOOT": [ord(" ")],
             "MENU": [ord("m")]
         }

@@ -1,8 +1,10 @@
 from objects.base import Base
-from render import PLAY_AREA
+from render import PLAY_AREA, MOVABLE_AREA
 from objects.hitbox import Hitbox
 
+
 INVICIBILITY_DURATION = 10
+
 
 class Player(Base, Hitbox):
     def __init__(self):
@@ -14,9 +16,13 @@ class Player(Base, Hitbox):
         self.ex_pos = self.position
         self.invicibility_timer = max(0, self.invicibility_timer - 1)
         if key == "UP":
-            self.position = (max(0, self.position[0] - 1), self.position[1])
+            self.position = (max(MOVABLE_AREA[0][0], self.position[0] - 1), self.position[1])
         elif key == "DOWN":
-            self.position = (min(PLAY_AREA[0] - 1, self.position[0] + 1), self.position[1])
+            self.position = (min(MOVABLE_AREA[1][0], self.position[0] + 1), self.position[1])
+        elif key == "LEFT":
+            self.position = (self.position[0], max(MOVABLE_AREA[0][1], self.position[1] - 1))
+        elif key == "RIGHT":
+            self.position = (self.position[0], min(MOVABLE_AREA[1][1], self.position[1] + 1))
 
     def hit(self, object_hit):
         pass

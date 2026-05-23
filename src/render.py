@@ -6,7 +6,8 @@ SEPARATOR = 1, 101
 BOTTOM_MENU = 6 ,81
 STATUS_AREA = 10, 20
 KEY_EXPLAINER = 2, 101
-
+# System
+MOVABLE_AREA = ((1,1),(8,40)) #player can move in this area. ((top,left),(bottom,right))
 
 # Colors
 #safety colors
