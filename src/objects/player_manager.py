@@ -18,6 +18,8 @@ class PlayerManager:
         
         self.__bullets = []
         self.__bullet_cooldown = 0
+
+        self.__movable_area_border = []
         
 
     def update_player(self, key):
@@ -38,21 +40,27 @@ class PlayerManager:
         self.__bullet_cooldown = max(0, self.__bullet_cooldown - 1)
         
         # Update player position
-        self.__player.update(key) 
+        player_response = self.__player.update(key) 
         PlayerManager.Player_Pos = self.__player.position
+
+        if player_response != None:
+            for res in player_response:
+                if res[0] == "hit_endline":
+                    response.append(("hit_endline", None))
+                    continue
+                if res[0] == "dead":
+                    response.append(("died", None))
+                    continue
+                if res[0] == "touch_movable_border":
+                    self.__movable_area_border.append(res[1])
+                    continue
+
+
 
         response.append(("bullet_cooldown", self.__bullet_cooldown if self.__bullet_cooldown > 0 else 0))
         response.append(("health", self.__player.health if self.__player.health > 0 else 0))
         response.append(("invicibility_timer", self.__player.invicibility_timer))
-        
-        # Check if player is touching endline
-        if self.__player.touching_endline:
-            self.__player.touching_endline = False
-            response.append(("hit_endline", None))
-        
-        # Check if player is died
-        if self.__player.health < 1:
-            response.append(("died", None))
+
         return response
 
 
@@ -60,3 +68,7 @@ class PlayerManager:
         render.draw_play_area(self.__player.icon, self.__player.position)
         for bullet in self.__bullets:
             render.draw_play_area(bullet.icon, bullet.position)
+        while len(self.__movable_area_border) > 0:
+            border = self.__movable_area_border.pop(0)
+            render.draw_play_area(border[0], border[1])
+            

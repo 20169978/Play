@@ -13,16 +13,41 @@ class Player(Base, Hitbox):
         self.__invicibility_timer = 0
 
     def update(self, key):
+        response = []
+
         self.ex_pos = self.position
         self.invicibility_timer = max(0, self.invicibility_timer - 1)
         if key == "UP":
+            if self.position[0] == MOVABLE_AREA[0][0]:
+                response.append(("touch_movable_border", ("═", (self.position[0] - 1,self.position[1]))))
+
             self.position = (max(MOVABLE_AREA[0][0], self.position[0] - 1), self.position[1])
         elif key == "DOWN":
+            if self.position[0] == MOVABLE_AREA[1][0]:
+                response.append(("touch_movable_border", ("═", (self.position[0] + 1,self.position[1]))))
+
             self.position = (min(MOVABLE_AREA[1][0], self.position[0] + 1), self.position[1])
         elif key == "LEFT":
+            if self.position[1] == MOVABLE_AREA[0][1]:
+                response.append(("touch_movable_border", ("║", (self.position[0],self.position[1] - 1))))
+
             self.position = (self.position[0], max(MOVABLE_AREA[0][1], self.position[1] - 1))
         elif key == "RIGHT":
+            if self.position[1] == MOVABLE_AREA[1][1]:
+                response.append(("touch_movable_border", ("║", (self.position[0],self.position[1] + 1))))
+
             self.position = (self.position[0], min(MOVABLE_AREA[1][1], self.position[1] + 1))
+
+        if self.__touching_endline:
+            self.__touching_endline = False
+            response.append(("hit_endline",None))
+
+        if self.health < 1:
+            response.append(("dead", None))
+
+        return None if len(response) < 1 else response        
+
+        
 
     def hit(self, object_hit):
         pass
