@@ -47,6 +47,18 @@ class BaseEnemy(Base, ABC):
     def add_effect(self, type_of_effect, pos):
         self.__effect_events.append((type_of_effect,pos))
 
+    def update(self):
+        response = []
+        for res in self.response:
+            result = res()
+            if result != None:
+                for v in result:
+                    response.append(v)
+        if len(response) > 0:
+            return response
+        else:
+            return None
+
     def res_death(self):
         if self.health < 1:
             return [("death", self.score_value)]

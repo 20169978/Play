@@ -19,13 +19,5 @@ class Enemy_U(BaseEnemy, Hitbox):
         if self.position[1] > PLAY_AREA[1] - 3:
             self.dir = -1
 
-        response = []
-        for res in self.response:
-            result = res()
-            if result != None:
-                response.append(result)
-        if len(response) > 0:
-            return response
-        else:
-            return None
+        return super().update()
             

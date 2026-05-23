@@ -15,16 +15,7 @@ class Enemy_O(BaseEnemy, Hitbox):
         if self.position[1] < 1:
             self.kill(False)
         
-        response = []
-        for res in self.response:
-            result = res()
-            if result != None:
-                for v in result:
-                    response.append(v)
-        if len(response) > 0:
-            return response
-        else:
-            return None
+        return super().update()
             
     def damage(self, power):
         super().damage(power)

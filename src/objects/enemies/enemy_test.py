@@ -19,16 +19,7 @@ class Enemy_Test(BaseEnemy, Hitbox):
         if self.position[0] > PLAY_AREA[0] - 2:
             self.__dir = -1
 
-        response = []
-        for res in self.response:
-            result = res()
-            if result != None:
-                for v in result:
-                    response.append(v)
-        if len(response) > 0:
-            return response
-        else:
-            return None
+        return super().update()
         
     
             
